@@ -8,37 +8,50 @@ body {
   color: white;
 }
 
-.wrapper {
+.calculator {
   width: 70%;
   margin: auto;
-  border-radius: 12px;
-  background: #505050;
-
-  padding: 50px;
-}
-
-.calculator {
   display: grid;
   grid-template-areas:
     "screenArea screenArea"
     "extraArea buttonArea";
+  grid-column-gap: 15px;
+  background-color: rgb(38, 40, 44);
+  padding: 20px;
+  border-radius: 12px;
 }
 
 .screen {
+  border-radius: 10px;
   background-color: #202020;
   padding: 10px;
   grid-area: screenArea;
   height: 150px;
-  box-shadow: inset 8px 8px 16px #202020, inset -8px -8px 16px #808080;
+  box-shadow: inset 8px 8px 16px #202020, inset -8px -8px 16px #181818;
   margin-bottom: 40px;
   font-size: 70px;
   text-align: end;
   font-family: "Courier New", Courier, monospace;
 }
 
+.screen .history {
+  font-size: 20px;
+}
+
 button {
   border: none;
+  height: 100%;
+  width: auto;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #222428, #292b2f);
+  box-shadow: 8px 8px 16px #1f2024, -4px -4px 16px #2d3034;
+
+  line-height: 90px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 30px;
 }
+
 .buttons {
   user-select: none;
   cursor: pointer;
@@ -46,42 +59,30 @@ button {
   grid-area: buttonArea;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
-  grid-column-gap: 5px;
-  grid-row-gap: 5px;
+  grid-column-gap: 1vw;
+  grid-row-gap: 1vw;
 }
 
-.extra .btn {
+.result {
+  background: rgb(147, 113, 80);
+}
+.extra button {
   background: #404040;
 }
 
-.btn {
-  height: 100px;
-  width: 100px;
-
-  border-radius: 12px;
-  background: #505050;
-  box-shadow: 8px 8px 36px #404040, -8px -8px 36px #606060;
-  line-height: 90px;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 30px;
-}
-.btn:active {
+button:active {
   filter: brightness(80%);
-  box-shadow: inset 12px 12px 17px #232323, inset -12px -12px 17px #3d3d3d;
+
+  box-shadow: inset 5px 5px 10px #18191c, inset -5px -5px 10px #24262a;
 }
-.btn:hover {
-  box-shadow: inset 12px 12px 17px #232323, inset -12px -12px 17px #3d3d3d;
+button:hover {
+  filter: brightness(110%);
 }
 
 .extra {
   grid-area: extraArea;
-
-  display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(5, 1fr);
-  grid-column-gap: 5px;
-  grid-row-gap: 5px;
 }
 
 @media (orientation: landscape) {

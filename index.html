@@ -6,52 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <title>Skaiciuotuvas</title>
+
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <div class="wrapper">
-      <div class="calculator">
-        <div class="screen">screen</div>
+    <div class="calculator">
+      <div class="screen">
+        <p class="history"></p>
+        <p class="main"></p>
+      </div>
 
-        <div class="extra">
-          <button class="btn" id="(">(</button>
-          <button class="btn" id=")">)</button>
-          <button class="btn" id="x2">x²</button>
-          <button class="btn" id="x3">x³</button>
-          <button class="btn" id="xy">xʸ</button>
-          <button class="btn" id="">sin</button>
-          <button class="btn" id="">cos</button>
-          <button class="btn" id="">tan</button>
-          <button class="btn" id="">tan</button>
-          <button class="btn" id="">tan</button>
-          <button class="btn" id="">tan</button>
-          <button class="btn" id="">x!</button>
-          <button class="btn" id="">√2</button>
-          <button class="btn" id="">√3</button>
-          <button class="btn" id="">√y</button>
-        </div>
+      <div class="buttons extra">
+        <button class="action" id="(">(</button>
+        <button class="action" id=")">)</button>
+        <button class="action" id="fac">x!</button>
+        <button class="action" id="x2">x²</button>
+        <button class="action" id="x3">x³</button>
+        <button class="action" id="xy">xʸ</button>
+        <button class="action" id="sin">sin</button>
+        <button class="action" id="cos">cos</button>
+        <button class="action" id="tan">tan</button>
+        <button class="action" id="root2">√2</button>
+        <button class="action" id="root3">√3</button>
+        <button class="action" id="rooty">√y</button>
+        <button class="action" id="pi">π</button>
+        <button class="action" id="abs">|x|</button>
+        <button class="action" id="log">log</button>
+      </div>
 
-        <div class="buttons">
-          <button class="btn">AC</button>
-          <button class="btn"><</button>
-          <button class="btn">%</button>
-          <button class="btn">÷</button>
-          <button class="btn">7</button>
-          <button class="btn">8</button>
-          <button class="btn">9</button>
-          <button class="btn">×</button>
-          <button class="btn">4</button>
-          <button class="btn">5</button>
-          <button class="btn">6</button>
-          <button class="btn">-</button>
-          <button class="btn">1</button>
-          <button class="btn">2</button>
-          <button class="btn">3</button>
-          <button class="btn">+</button>
-          <button class="btn"></button>
-          <button class="btn">0</button>
-          <button class="btn">,</button>
-          <button class="btn">=</button>
-        </div>
+      <div class="buttons">
+        <button class="clearAll" id="ac">AC</button>
+        <button class="undo" id="«">«</button>
+        <button class="action" id="%">%</button>
+        <button class="action" id="÷">÷</button>
+        <button class="number" id="7">7</button>
+        <button class="number" id="8">8</button>
+        <button class="number" id="9">9</button>
+        <button class="action" id="×">×</button>
+        <button class="number" id="4">4</button>
+        <button class="number" id="5">5</button>
+        <button class="number" id="6">6</button>
+        <button class="action" id="-">-</button>
+        <button class="number" id="1">1</button>
+        <button class="number" id="2">2</button>
+        <button class="number" id="3">3</button>
+        <button class="action" id="+">+</button>
+        <button class="action" id="+/-">+/-</button>
+        <button class="number" id="0">0</button>
+        <button class="action" id=",">,</button>
+        <button class="result" id="=">=</button>
       </div>
     </div>
   </body>
