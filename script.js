@@ -10,6 +10,15 @@ let ResultButton = document.querySelector(".result");
 let historyView = document.querySelector(".history");
 let mainView = document.querySelector(".main");
 
+let themeButton = document.querySelector(".toggletheme")
+
+const root = document.documentElement;
+root.classList.toggle("light");
+themeButton.onclick = () => {
+  root.classList.toggle("light");
+  console.log("light");
+}
+
 //console.log(ActionButtons);
 //console.log(NumberButtons);
 
@@ -23,6 +32,9 @@ let newVal = "";
 
 //  TODO: calculate value 33+66-663 99show on main, dissapear on type DONE
 //  TODO: make sequence an array, store values like [-12,+,12] DONE
+
+// TODO: create new class for instant action buttons
+// TODO: ^^ sqrt sin cos everything instant
 // ! Daugybos su neigiamais nera
 // ! Commas dont work - make separate class
 // ! +/- doesnt work  - make separate class
@@ -206,17 +218,29 @@ function EvaluateResult() {
       newVal = +newVal.toFixed(10)
       break;
     case "sin":
-      console.log(degreesToRadians(val1) + "<<<");
-      newVal = degreesToRadians(val1)
-      newVal = Math.sin(newVal);
+      newVal = Math.sin(degreesToRadians(val1));
+      newVal = +newVal.toFixed(10)
       break;
     case "cos":
-      console.log(degreesToRadians(val1) + "<<<");
       newVal = Math.cos(degreesToRadians(val1));
+      newVal = +newVal.toFixed(10)
       break;
     case "tan":
-      console.log(degreesToRadians(val1) + "<<<");
       newVal = Math.tan(degreesToRadians(val1));
+      newVal = +newVal.toFixed(10)
+      break;
+    case "rad":
+      newVal = degreesToRadians(val1);
+      newVal = +newVal.toFixed(10)
+      break;
+    case "pi":
+      newVal = +Math.PI.toFixed(10)
+      break;
+    case "xʸ":
+      newVal = Math.pow(val1, val2)
+      break;
+    case "√":
+      newVal = Math.sqrt(val1, 2)
       break;
   }
   console.log("newVal:" + newVal);
@@ -229,9 +253,8 @@ function EvaluateResult() {
   UpdateView();
 }
 
-function degreesToRadians(degrees)
-{
-  return degrees * (Math.PI/180);
+function degreesToRadians(deg) {
+  return radians = (Math.PI / 180) * deg;
 }
 
 console.log(NumberButtons);
