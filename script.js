@@ -21,19 +21,13 @@ let currentAction = "";
 let prevVal = "";
 let newVal = "";
 
-//  TODO: calculate value 33+66-663 99show on main, dissapear on type
-//  TODO: make sequence an array, store values like [-12,+,12]
+//  TODO: calculate value 33+66-663 99show on main, dissapear on type DONE
+//  TODO: make sequence an array, store values like [-12,+,12] DONE
 // ! Daugybos su neigiamais nera
 // ! Commas dont work - make separate class
 // ! +/- doesnt work  - make separate class
 // ! grey buttons dont work
 let sequence = [];
-
-// sequence.push(1,2,3,4)
-// console.log(sequence);
-
-// sequence.push(...sequence.slice(2))
-// console.log(sequence);
 
 ClearAllButton.addEventListener("click", () => {
   sequence = [];
@@ -49,6 +43,7 @@ UndoButton.addEventListener("click", () => {
 
   UpdateView();
 });
+
 
 ResultButton.addEventListener("click", () => {
   if (sequence[sequence.length - 1] == "=") {
@@ -74,9 +69,6 @@ ResultButton.addEventListener("click", () => {
   UpdateView();
 });
 
-const endsWithNumber = (arr) => {
-  return typeof arr[arr.length - 1] === 'number';
-};
 
 for (button of NumberButtons) {
   button.addEventListener("click", (e) => {
@@ -84,15 +76,13 @@ for (button of NumberButtons) {
 
     if (newVal[0] == "0") newVal = newVal.slice(1, -1);
 
-    if (endsWithNumber(sequence) || newVal.length > 0) {
+    if (Number.isInteger(sequence[sequence.length - 1]) || newVal.length > 0) {
       newVal += num;
     } else {
       newVal = num;
     }
 
     prevVal = newVal;
-
-    //console.log(newVal);
 
     UpdateView();
   });
@@ -104,14 +94,12 @@ for (button of ActionButtons) {
 
     if (!Number.isInteger(sequence[sequence.length - 1]) || newVal.length > 0) {
       EvaluateResult();
-      // sequence = newVal + action;
       sequence = [newVal, action];
       UpdateView();
 
       newVal = "";
       console.log(1);
     } else if (sequence[sequence.length - 1] == "=") {
-      // sequence = newVal + action;
       sequence = [newVal, action];
       console.log(2);
       UpdateView();
@@ -122,14 +110,11 @@ for (button of ActionButtons) {
       UpdateView();
 
     } else if (sequence.length == 0) {
-      // sequence += 0 + action;
       sequence.push(0, action)
       console.log(4);
       UpdateView();
-
     }
     else {
-      // sequence = sequence.slice(0, -1) + action;
       sequence.push(...sequence.slice(0, -1), action)
       console.log(5);
       UpdateView();
@@ -157,7 +142,6 @@ function EvaluateResult() {
   let val2 = 0;
   let symbol = "";
 
-  // sequence += newVal;
   if (newVal != "")
     sequence.push(newVal)
   console.log(sequence);
@@ -221,6 +205,19 @@ function EvaluateResult() {
       newVal = val1 % val2;
       newVal = +newVal.toFixed(10)
       break;
+    case "sin":
+      console.log(degreesToRadians(val1) + "<<<");
+      newVal = degreesToRadians(val1)
+      newVal = Math.sin(newVal);
+      break;
+    case "cos":
+      console.log(degreesToRadians(val1) + "<<<");
+      newVal = Math.cos(degreesToRadians(val1));
+      break;
+    case "tan":
+      console.log(degreesToRadians(val1) + "<<<");
+      newVal = Math.tan(degreesToRadians(val1));
+      break;
   }
   console.log("newVal:" + newVal);
 
@@ -228,24 +225,27 @@ function EvaluateResult() {
 
   if (is_numeric(sequence[sequence.length - 1])) {
     sequence.push("=");
-    // sequence += "=";
   }
   UpdateView();
+}
+
+function degreesToRadians(degrees)
+{
+  return degrees * (Math.PI/180);
 }
 
 console.log(NumberButtons);
 console.log(ActionButtons);
 
-// ActionButtons[0].click();
-
 document.addEventListener('keydown', e => {
-  // console.log(e.key >= 0 && e.key <= 9);
+
   if ((e.key >= 0 && e.key <= 9)) {
     // 0-9 only
     switch (e.key) {
       case "0":
         NumberButtons[9].click()
         break;
+
       case "1":
         NumberButtons[6].click()
         break;

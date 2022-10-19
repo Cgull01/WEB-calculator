@@ -9,26 +9,28 @@ body {
 }
 
 .calculator {
-  width: 70%;
+  padding: 20px;
+  width: 90vw;
+  height:90vh;
   margin: auto;
   display: grid;
   grid-template-areas:
     "screenArea screenArea"
+    "extraArea buttonArea"
     "extraArea buttonArea";
-  grid-column-gap: 15px;
+  grid-column-gap: 0px;
   background-color: rgb(38, 40, 44);
-  padding: 20px;
   border-radius: 12px;
 }
 
 .screen {
+  min-height: 90px;
   border-radius: 10px;
   background-color: #202020;
-  padding: 10px;
+  padding: 10px 10px 0px 10px;
   grid-area: screenArea;
-  height: 150px;
+  height: auto;
   box-shadow: inset 8px 8px 16px #202020, inset -8px -8px 16px #181818;
-  margin-bottom: 40px;
   font-size: 70px;
   text-align: end;
   font-family: "Courier New", Courier, monospace;
@@ -45,11 +47,9 @@ button {
   border-radius: 6px;
   background: linear-gradient(145deg, #222428, #292b2f);
   box-shadow: 8px 8px 16px #1f2024, -4px -4px 16px #2d3034;
-
-  line-height: 90px;
   text-align: center;
   vertical-align: middle;
-  font-size: 30px;
+  font-size: 1.875rem;
 }
 
 .buttons {
@@ -61,6 +61,7 @@ button {
   grid-template-rows: repeat(5, 1fr);
   grid-column-gap: 1vw;
   grid-row-gap: 1vw;
+  padding: 0.625rem 1.25rem 1.25rem 0px;
 }
 
 .result {
@@ -83,6 +84,7 @@ button:hover {
   grid-area: extraArea;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(5, 1fr);
+
 }
 
 @media (orientation: landscape) {
@@ -93,6 +95,7 @@ button:hover {
   .calculator {
     grid-template-areas:
       "screenArea screenArea"
+      "extraArea buttonArea"
       "extraArea buttonArea";
   }
 }
@@ -104,6 +107,7 @@ button:hover {
   .calculator {
     grid-template-areas:
       " screenArea"
+      " buttonArea"
       " buttonArea";
   }
 }
