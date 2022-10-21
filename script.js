@@ -13,7 +13,7 @@ let mainView = document.querySelector(".main");
 let themeButton = document.querySelector(".toggletheme")
 
 const root = document.documentElement;
-root.classList.toggle("light");
+// root.classList.toggle("light");
 themeButton.onclick = () => {
   root.classList.toggle("light");
   console.log("light");
@@ -35,6 +35,7 @@ let newVal = "";
 
 // TODO: create new class for instant action buttons
 // TODO: ^^ sqrt sin cos everything instant
+// TODO weird padding right
 // ! Daugybos su neigiamais nera
 // ! Commas dont work - make separate class
 // ! +/- doesnt work  - make separate class
@@ -262,50 +263,58 @@ console.log(ActionButtons);
 
 document.addEventListener('keydown', e => {
 
-  if ((e.key >= 0 && e.key <= 9)) {
-    // 0-9 only
-    switch (e.key) {
-      case "0":
-        NumberButtons[9].click()
-        break;
-
-      case "1":
-        NumberButtons[6].click()
-        break;
-
-      case "2":
-        NumberButtons[7].click()
-        break;
-      case "3":
-        NumberButtons[8].click()
-        break;
-
-      case "4":
-        NumberButtons[3].click()
-        break;
-
-      case "5":
-        NumberButtons[4].click()
-        break;
-
-      case "6":
-        NumberButtons[5].click()
-        break;
-
-      case "7":
-        NumberButtons[0].click()
-        break;
-
-      case "8":
-        NumberButtons[1].click()
-        break;
-      case "9":
-        NumberButtons[2].click()
-        break;
-
+  NumberButtons.forEach(element => {
+    if ((e.key >= 0 && e.key <= 9)) {
+      let btn = NumberButtons.from().find(node => node.isEqualNode(e.key));
+      btn.click();
     }
-  }
-  else {
+
+  });
+
+  // if ((e.key >= 0 && e.key <= 9)) {
+  //   // 0-9 only
+  //   switch (e.key) {
+  //     case "0":
+  //       NumberButtons[9].click()
+  //       break;
+
+  //     case "1":
+  //       NumberButtons[6].click()
+  //       break;
+
+  //     case "2":
+  //       NumberButtons[7].click()
+  //       break;
+  //     case "3":
+  //       NumberButtons[8].click()
+  //       break;
+
+  //     case "4":
+  //       NumberButtons[3].click()
+  //       break;
+
+  //     case "5":
+  //       NumberButtons[4].click()
+  //       break;
+
+  //     case "6":
+  //       NumberButtons[5].click()
+  //       break;
+
+  //     case "7":
+  //       NumberButtons[0].click()
+  //       break;
+
+  //     case "8":
+  //       NumberButtons[1].click()
+  //       break;
+  //     case "9":
+  //       NumberButtons[2].click()
+  //       break;
+
+  //   }
+  // }
+  // else {
     switch (e.key) {
       case "Delete":
         ClearAllButton.click();
@@ -334,4 +343,5 @@ document.addEventListener('keydown', e => {
     }
   }
 
-})
+// }
+)

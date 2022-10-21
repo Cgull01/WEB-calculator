@@ -1,20 +1,18 @@
 :root{
-  --bg-color: #404040;
+  --bg-color: #2e3440;
   --font-color: white;
-  --calc-color: rgb(38, 40, 44);
+  --calc-color: #3b4252;
   --screen-color: #202020;
-  --btn-color1: #222428;
-  --btn-color2: #292b2f;
   --btn-result: rgb(147, 113, 80);
-  --shadow1:#1f2024;
-  --shadow2:#2d3034;
+  --shadow1:#2b303c;
+  --shadow2:#4b5468;
 }
 
 .light{
-  --bg-color: #808080;
+  --bg-color: #D8DEE9;
   --font-color: black;
-  --calc-color: rgb(176, 185, 202);
-  --screen-color: #f0dfdf;
+  --calc-color: #eceff4;
+  --screen-color: #a9b1c0;
   --btn-color1: #bbc3d2;
   --btn-color2: #9ba0a9;
   --btn-result: rgb(218, 166, 114);
@@ -64,12 +62,14 @@ body {
   font-size: 20px;
 }
 
-button {
+
+
+.buttons button {
   border: none;
   height: 100%;
   width: auto;
   border-radius: 6px;
-  background: linear-gradient(145deg, var(--btn-color1), var(--btn-color2));
+  background: var(--calc-color);
   box-shadow: 8px 8px 16px var(--shadow1), -4px -4px 16px var(--shadow2);
   text-align: center;
   vertical-align: middle;
