@@ -20,6 +20,14 @@
   --shadow2:#a5afbd;
 }
 
+.toggletheme{
+  display: inline-block;
+  padding: 0.1rem;
+  margin: 0.2rem;
+  border: none;
+  background-color: #909090;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -39,6 +47,7 @@ body {
   grid-template-areas:
     "screenArea screenArea"
     "extraArea buttonArea"
+    "extraArea buttonArea"
     "extraArea buttonArea";
   grid-column-gap: 0px;
   background-color: var(--calc-color);
@@ -46,23 +55,24 @@ body {
 }
 
 .screen {
-  min-height: 90px;
+  height: 100%;
   border-radius: 10px;
   background-color: var(--screen-color);
   padding: 10px 10px 0px 10px;
   grid-area: screenArea;
-  height: auto;
   box-shadow: inset 8px 8px 16px var(--screen-color), inset -8px -8px 16px var(--shadow1);
-  font-size: 70px;
   text-align: end;
   font-family: "Courier New", Courier, monospace;
 }
 
 .screen .history {
-  font-size: 20px;
+  font-size: 4vh;
+  height: 6vh;
 }
-
-
+.screen .main {
+  font-size: 8vh;
+  height: 1.25rem;
+}
 
 .buttons button {
   border: none;
@@ -70,13 +80,14 @@ body {
   width: auto;
   border-radius: 6px;
   background: var(--calc-color);
-  box-shadow: 8px 8px 16px var(--shadow1), -4px -4px 16px var(--shadow2);
+  box-shadow: 8px 8px 8px var(--shadow1), -4px -4px 8px var(--shadow2);
   text-align: center;
   vertical-align: middle;
   font-size: 1.875rem;
 }
 
 .buttons {
+  margin-top: 2vh;
   user-select: none;
   cursor: pointer;
   display: grid;
@@ -85,7 +96,7 @@ body {
   grid-template-rows: repeat(5, 1fr);
   grid-column-gap: 1vw;
   grid-row-gap: 1vw;
-  padding: 0.625rem 1.25rem 1.25rem 0px;
+  padding: 0.625rem 0 1.25rem 0;
 }
 
 .result {
@@ -108,6 +119,8 @@ button:hover {
   grid-area: extraArea;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(5, 1fr);
+  padding: 0.625rem 1.25rem 1.25rem 0px;
+
 
 }
 
@@ -120,6 +133,7 @@ button:hover {
     grid-template-areas:
       "screenArea screenArea"
       "extraArea buttonArea"
+      "extraArea buttonArea"
       "extraArea buttonArea";
   }
 }
@@ -130,8 +144,9 @@ button:hover {
 
   .calculator {
     grid-template-areas:
-      " screenArea"
-      " buttonArea"
-      " buttonArea";
+      "screenArea"
+      "buttonArea"
+      "buttonArea"
+      "buttonArea";
   }
 }

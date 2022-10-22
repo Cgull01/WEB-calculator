@@ -1,58 +1,56 @@
-
 let ActionButtons = document.querySelectorAll(".action");
-
+let InstantActionButtons = document.querySelectorAll(".instantaction");
 let NumberButtons = document.querySelectorAll(".number");
 
 let ClearAllButton = document.querySelector(".clearAll");
 let UndoButton = document.querySelector(".undo");
 let ResultButton = document.querySelector(".result");
+let commaButton = document.querySelector(".comma")
 
-let historyView = document.querySelector(".history");
-let mainView = document.querySelector(".main");
+let HistoryView = document.querySelector(".history");
+let MainView = document.querySelector(".main");
 
-let themeButton = document.querySelector(".toggletheme")
+let ThemeButton = document.querySelector(".toggletheme")
 
 const root = document.documentElement;
+
 // root.classList.toggle("light");
-themeButton.onclick = () => {
+ThemeButton.onclick = () => {
   root.classList.toggle("light");
-  console.log("light");
+  if (ThemeButton.innerHTML === "Change theme to light") {
+    ThemeButton.innerHTML = "Change theme to dark";
+  } else {
+    ThemeButton.innerHTML = "Change theme to light";
+  }
 }
 
-//console.log(ActionButtons);
-//console.log(NumberButtons);
+let PrevAction = "";
+let CurrentAction = "";
+let PrevVal = "";
+let NewVal = "";
 
-//console.log(ClearAllButton);
-//console.log(UndoButton);
-
-let prevAction = "";
-let currentAction = "";
-let prevVal = "";
-let newVal = "";
-
-//  TODO: calculate value 33+66-663 99show on main, dissapear on type DONE
-//  TODO: make sequence an array, store values like [-12,+,12] DONE
-
-// TODO: create new class for instant action buttons
-// TODO: ^^ sqrt sin cos everything instant
-// TODO weird padding right
-// ! Daugybos su neigiamais nera
-// ! Commas dont work - make separate class
-// ! +/- doesnt work  - make separate class
-// ! grey buttons dont work
 let sequence = [];
 
 ClearAllButton.addEventListener("click", () => {
   sequence = [];
-  prevAction = "";
-  currentAction = "";
-  prevVal = "";
-  newVal = "";
+  PrevAction = "";
+  CurrentAction = "";
+  PrevVal = "";
+  NewVal = "";
   UpdateView();
 });
 
+commaButton.addEventListener("click", () => {
+  if (!toString(NewVal).includes(".")) {
+    NewVal += ".";
+    console.log("yes");
+    UpdateView();
+  }
+
+});
+
 UndoButton.addEventListener("click", () => {
-  newVal = Math.floor(newVal / 10);
+  NewVal = Math.floor(NewVal / 10);
 
   UpdateView();
 });
@@ -61,25 +59,21 @@ UndoButton.addEventListener("click", () => {
 ResultButton.addEventListener("click", () => {
   if (sequence[sequence.length - 1] == "=") {
     sequence = sequence.slice(0, -1);
-    console.log("Result sequence: " + sequence);
     let index = 0;
     for (let i = 0; i < sequence.length; i++) {
-      if (!is_numeric(sequence[i]) && !Number.isInteger(sequence[i])) {
+      if ("/*-×+%".includes(sequence[i])) {
         break;
       }
       index++;
     }
 
-    // sequence = newVal + sequence.slice(index)
     let sliced = sequence.slice(index)
-    sequence = [newVal, ...sliced];
-    newVal = "";
-    console.log(sequence);
+    sequence = [NewVal, ...sliced];
+    NewVal = "";
   }
 
   EvaluateResult();
 
-  UpdateView();
 });
 
 
@@ -87,17 +81,93 @@ for (button of NumberButtons) {
   button.addEventListener("click", (e) => {
     let num = e.target.id;
 
-    if (newVal[0] == "0") newVal = newVal.slice(1, -1);
+    if (sequence[sequence.length - 1] == "=")
+      sequence = [];
 
-    if (Number.isInteger(sequence[sequence.length - 1]) || newVal.length > 0) {
-      newVal += num;
+    if (NewVal.length > 0) {
+      NewVal += num;
     } else {
-      newVal = num;
+      NewVal = num;
     }
 
-    prevVal = newVal;
+    if (num == "pi") {
+      NewVal = +Math.PI.toPrecision(5);
+    }
+
+    PrevVal = NewVal;
 
     UpdateView();
+  });
+}
+
+
+for (button of InstantActionButtons) {
+  button.addEventListener("click", (e) => {
+    let action = e.target.id;
+
+    if (NewVal != "0") {
+      switch (action) {
+        case "rad":
+          NewVal = degreesToRadians(NewVal);
+          NewVal = +NewVal.toPrecision(10)
+          EvaluateResult();
+          break;
+        case "sin":
+          NewVal = Math.sin(degreesToRadians(NewVal));
+          NewVal = +NewVal.toPrecision(10)
+          EvaluateResult();
+          break;
+        case "cos":
+          NewVal = Math.cos(degreesToRadians(NewVal));
+          NewVal = +NewVal.toPrecision(10)
+          EvaluateResult();
+          break;
+        case "tan":
+          NewVal = Math.tan(degreesToRadians(NewVal));
+          NewVal = +NewVal.toPrecision(10)
+          EvaluateResult();
+          break;
+        case "√":
+          if (parseFloat(NewVal) < 0) {
+            DisplayError("Root of a negative number")
+            break
+          }
+          NewVal = Math.sqrt(NewVal, 2)
+          EvaluateResult();
+          break;
+        case "!":
+          if ((NewVal + "").includes('.')) {
+            DisplayError("no decimals please (infinite recursion)")
+            break
+          }
+
+          NewVal = factorialize(NewVal);
+          EvaluateResult();
+          break;
+        case "1/":
+          NewVal = 1 / NewVal;
+          EvaluateResult();
+          break;
+        case "lg":
+          if(NewVal < 0)
+          {
+            DisplayError("Log10 of negative value")
+            return
+          }
+          NewVal = Math.log10(NewVal);
+          EvaluateResult();
+          break;
+        case "ln":
+          NewVal = Math.log(NewVal);
+          NewVal = +NewVal.toPrecision(10);
+          EvaluateResult();
+          break;
+        case "+/-":
+          NewVal = parseFloat(NewVal) * -1;
+          UpdateView();
+          break;
+      }
+    }
   });
 }
 
@@ -105,243 +175,139 @@ for (button of ActionButtons) {
   button.addEventListener("click", (e) => {
     let action = e.target.id;
 
-    if (!Number.isInteger(sequence[sequence.length - 1]) || newVal.length > 0) {
+    if (!Number.isInteger(sequence[sequence.length - 1]) || NewVal.length > 0) {
       EvaluateResult();
-      sequence = [newVal, action];
+      sequence = [NewVal, action];
       UpdateView();
 
-      newVal = "";
+      NewVal = "";
       console.log(1);
-    } else if (sequence[sequence.length - 1] == "=") {
-      sequence = [newVal, action];
-      console.log(2);
-      UpdateView();
-
-    } else if (!Number.isInteger(sequence[sequence.length - 1])) {
-      EvaluateResult();
-      console.log(3);
-      UpdateView();
-
-    } else if (sequence.length == 0) {
-      sequence.push(0, action)
-      console.log(4);
-      UpdateView();
     }
     else {
       sequence.push(...sequence.slice(0, -1), action)
       console.log(5);
       UpdateView();
-
     }
 
-    prevAction = currentAction;
-    currentAction = action;
+    PrevAction = CurrentAction;
+    CurrentAction = action;
   });
 }
 
-function UpdateView() {
-  historyView.textContent = sequence.join('');
-
-  mainView.textContent = newVal;
-}
-
-function is_numeric(str) {
-  return /^\d+$/.test(str);
-}
-
-function EvaluateResult() {
-  console.log("----------------Evaluation--------");
-  let val1 = 0;
-  let val2 = 0;
-  let symbol = "";
-
-  if (newVal != "")
-    sequence.push(newVal)
-  console.log(sequence);
-
-  for (x of sequence) {
-    console.log(x + ":");
-
-    let isNumber = is_numeric(x);
-
-    if (Number.isInteger(x)) {
-      isNumber = true;
-    }
-
-    if (isNumber && symbol == "") { // first num
-      if (val1 == 0) val1 = Number(x);
-      else {
-        val1 = val1 * 10 + Number(x);
-      }
-      console.log("val1:" + val1);
-    } else if (isNumber && symbol != "") { //second num
-      if (val2 == 0) val2 = Number(x);
-      else {
-        val2 = val2 * 10 + Number(x);
-      }
-      console.log("val2:" + val2);
-    } else { // symbol
-      symbol = x;
-      console.log("symbol:" + symbol);
-    }
+function factorialize(num) {
+  if (num < 0)
+    return -1;
+  else if (num == 0)
+    return 1;
+  else {
+    return (num * factorialize(num - 1));
   }
-
-  symbols = [];
-
-  for (x of sequence) {
-    if (x == "-" || x == "+") {
-      symbols.push(x);
-    }
-  }
-
-  switch (symbol) {
-    case "+":
-      newVal = val1 + val2;
-      break;
-    case "-":
-      newVal = val1 - val2;
-      break;
-    case "×":
-      if (val2 == 0)
-        val2 = 1;
-      newVal = val1 * val2;
-      break;
-    case "÷":
-      if (val2 == 0)
-        val2 = 1;
-      newVal = val1 / val2;
-      newVal = +newVal.toFixed(10)
-      break;
-    case "%":
-      if (val2 == 0)
-        val2 == 1;
-      newVal = val1 % val2;
-      newVal = +newVal.toFixed(10)
-      break;
-    case "sin":
-      newVal = Math.sin(degreesToRadians(val1));
-      newVal = +newVal.toFixed(10)
-      break;
-    case "cos":
-      newVal = Math.cos(degreesToRadians(val1));
-      newVal = +newVal.toFixed(10)
-      break;
-    case "tan":
-      newVal = Math.tan(degreesToRadians(val1));
-      newVal = +newVal.toFixed(10)
-      break;
-    case "rad":
-      newVal = degreesToRadians(val1);
-      newVal = +newVal.toFixed(10)
-      break;
-    case "pi":
-      newVal = +Math.PI.toFixed(10)
-      break;
-    case "xʸ":
-      newVal = Math.pow(val1, val2)
-      break;
-    case "√":
-      newVal = Math.sqrt(val1, 2)
-      break;
-  }
-  console.log("newVal:" + newVal);
-
-  console.log("Ends with num: " + is_numeric(sequence[sequence.length - 1]));
-
-  if (is_numeric(sequence[sequence.length - 1])) {
-    sequence.push("=");
-  }
-  UpdateView();
 }
 
 function degreesToRadians(deg) {
   return radians = (Math.PI / 180) * deg;
 }
 
-console.log(NumberButtons);
-console.log(ActionButtons);
+function UpdateView() {
+  HistoryView.textContent = sequence.join('');
 
-document.addEventListener('keydown', e => {
+  MainView.textContent = NewVal;
+}
 
-  NumberButtons.forEach(element => {
-    if ((e.key >= 0 && e.key <= 9)) {
-      let btn = NumberButtons.from().find(node => node.isEqualNode(e.key));
-      btn.click();
+function is_numeric(str) {
+  return /^\d+$/.test(str);
+}
+
+function DisplayError(message) {
+  sequence = [];
+  NewVal = "";
+  HistoryView.textContent = "Error occured:"
+  MainView.textContent = message;
+  console.warn("Math error");
+}
+
+function EvaluateResult() {
+
+  let val1 = null;
+  let val2 = null;
+  let symbol = "";
+
+  if (NewVal != "" && sequence[sequence.length - 1] != "=")
+    sequence.push(NewVal)
+
+  for (x of sequence) {
+
+    // converts to string
+    let element = x + "";
+
+    number = parseFloat(x);
+
+    let isNumber = is_numeric(number);
+
+    if (Number.isInteger(parseFloat(element.replace('.', ',')))) {
+      isNumber = true;
     }
 
-  });
+    if (isNumber && symbol == "") { // first num
+      val1 = number;
 
-  // if ((e.key >= 0 && e.key <= 9)) {
-  //   // 0-9 only
-  //   switch (e.key) {
-  //     case "0":
-  //       NumberButtons[9].click()
-  //       break;
+    } else if (isNumber && symbol != "") { //second num
+      val2 = number;
 
-  //     case "1":
-  //       NumberButtons[6].click()
-  //       break;
-
-  //     case "2":
-  //       NumberButtons[7].click()
-  //       break;
-  //     case "3":
-  //       NumberButtons[8].click()
-  //       break;
-
-  //     case "4":
-  //       NumberButtons[3].click()
-  //       break;
-
-  //     case "5":
-  //       NumberButtons[4].click()
-  //       break;
-
-  //     case "6":
-  //       NumberButtons[5].click()
-  //       break;
-
-  //     case "7":
-  //       NumberButtons[0].click()
-  //       break;
-
-  //     case "8":
-  //       NumberButtons[1].click()
-  //       break;
-  //     case "9":
-  //       NumberButtons[2].click()
-  //       break;
-
-  //   }
-  // }
-  // else {
-    switch (e.key) {
-      case "Delete":
-        ClearAllButton.click();
-        break;
-      case "Backspace":
-        UndoButton.click();
-        break;
-      case "/":
-        ActionButtons[16].click();
-        break;
-      case "*":
-        ActionButtons[17].click();
-        break;
-      case "-":
-        ActionButtons[18].click();
-        break;
-      case "+":
-        ActionButtons[19].click();
-        break;
-      case "," || ".":
-        ActionButtons[21].click();
-        break;
-      case "Enter":
-        ResultButton.click();
-        break;
+    } else { // symbol
+      symbol = x;
     }
   }
 
-// }
-)
+  switch (symbol) {
+    case "+":
+      NewVal = val1 + val2;
+      break;
+    case "-":
+      NewVal = val1 - val2;
+      break;
+    case "×":
+      if (val2 == 0 || val2 == null)
+        val2 = 1;
+      NewVal = val1 * val2;
+      break;
+    case "÷":
+      if (val2 == 0 || val2 == null)
+        val2 = 1;
+      NewVal = val1 / val2;
+      NewVal = +NewVal.toPrecision(10)
+      break;
+    case "%":
+      if (val2 == 0 || val2 == null)
+        val2 == 1;
+      NewVal = val1 % val2;
+      NewVal = +NewVal.toPrecision(10)
+      break;
+    case "^":
+      NewVal = Math.pow(val1, val2)
+      break;
+    case "√":
+
+      if(val2 < 0)
+      {
+        DisplayError("Root of a negative number");
+        return;
+      }
+
+      NewVal = Math.pow(val2, 1 / val1);
+
+      if(val1 % 2 == 0)
+      NewVal *= -1;
+
+      break;
+
+  }
+  NewVal = NewVal + "";
+
+  if (sequence[sequence.length - 1] != "=")
+    sequence.push("=");
+  UpdateView();
+
+  return NewVal;
+}
+

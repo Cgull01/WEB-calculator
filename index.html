@@ -8,11 +8,11 @@
     <title>Skaiciuotuvas</title>
 
     <script src="script.js" defer></script>
+    <script src="tests.js" defer></script>
   </head>
   <body>
 
-    <button class="toggletheme">Toggle theme</button>
-
+    <button class="toggletheme">Change theme to light</button>
 
     <div class="calculator">
       <div class="screen">
@@ -21,18 +21,18 @@
       </div>
 
       <div class="buttons extra">
-        <button class="action" id="rad">rad</button>
-        <button class="action" id="sin">sin</button>
-        <button class="action" id="cos">cos</button>
-        <button class="action" id="tan">tan</button>
-        <button class="action" id="xʸ">xʸ</button>
-        <button class="action" id="√">√x</button>
-        <button class="action" id="rootn">n√x</button>
-        <button class="action" id="fac">x!</button>
-        <button class="action" id="1/x">1/x</button>
+        <button class="instantaction" id="rad">rad</button>
+        <button class="instantaction" id="sin">sin</button>
+        <button class="instantaction" id="cos">cos</button>
+        <button class="instantaction" id="tan">tan</button>
+        <button class="action" id="^">xʸ</button>
+        <button class="instantaction" id="√">√x</button>
+        <button class="action" id="√">n√x</button>
+        <button class="instantaction" id="!">x!</button>
+        <button class="instantaction" id="1/">1/x</button>
         <button class="number" id="pi">π</button>
-        <button class="action" id="lg">lg</button>
-        <button class="action" id="ln">ln</button>
+        <button class="instantaction" id="lg">lg</button>
+        <button class="instantaction" id="ln">ln</button>
       </div>
 
       <div class="buttons">
@@ -52,9 +52,9 @@
         <button class="number" id="2">2</button>
         <button class="number" id="3">3</button>
         <button class="action" id="+">+</button>
-        <button class="action" id="+/-">+/-</button>
+        <button class="instantaction" id="+/-">+/-</button>
         <button class="number" id="0">0</button>
-        <button class="action" id=",">,</button>
+        <button class="comma" id=".">,</button>
         <button class="result" id="=">=</button>
       </div>
     </div>
