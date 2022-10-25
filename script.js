@@ -24,17 +24,12 @@ ThemeButton.onclick = () => {
   }
 }
 
-let PrevAction = "";
-let CurrentAction = "";
 let PrevVal = "";
 let NewVal = "";
-
 let sequence = [];
 
 ClearAllButton.addEventListener("click", () => {
   sequence = [];
-  PrevAction = "";
-  CurrentAction = "";
   PrevVal = "";
   NewVal = "";
   UpdateView();
@@ -51,10 +46,8 @@ commaButton.addEventListener("click", () => {
 
 UndoButton.addEventListener("click", () => {
   NewVal = Math.floor(NewVal / 10);
-
   UpdateView();
 });
-
 
 ResultButton.addEventListener("click", () => {
   if (sequence[sequence.length - 1] == "=") {
@@ -149,8 +142,7 @@ for (button of InstantActionButtons) {
           EvaluateResult();
           break;
         case "lg":
-          if(NewVal < 0)
-          {
+          if (NewVal < 0) {
             DisplayError("Log10 of negative value")
             return
           }
@@ -184,13 +176,11 @@ for (button of ActionButtons) {
       console.log(1);
     }
     else {
-      sequence.push(...sequence.slice(0, -1), action)
+      sequence.push(...sequence.slice(0, -1), action);
       console.log(5);
       UpdateView();
     }
 
-    PrevAction = CurrentAction;
-    CurrentAction = action;
   });
 }
 
@@ -221,7 +211,7 @@ function is_numeric(str) {
 function DisplayError(message) {
   sequence = [];
   NewVal = "";
-  HistoryView.textContent = "Error occured:"
+  HistoryView.textContent = "Error occured:";
   MainView.textContent = message;
   console.warn("Math error");
 }
@@ -233,7 +223,7 @@ function EvaluateResult() {
   let symbol = "";
 
   if (NewVal != "" && sequence[sequence.length - 1] != "=")
-    sequence.push(NewVal)
+    sequence.push(NewVal);
 
   for (x of sequence) {
 
@@ -284,20 +274,19 @@ function EvaluateResult() {
       NewVal = +NewVal.toPrecision(10)
       break;
     case "^":
-      NewVal = Math.pow(val1, val2)
+      NewVal = Math.pow(val1, val2);
       break;
     case "√":
 
-      if(val2 < 0)
-      {
+      if (val2 < 0) {
         DisplayError("Root of a negative number");
         return;
       }
 
       NewVal = Math.pow(val2, 1 / val1);
 
-      if(val1 % 2 == 0)
-      NewVal *= -1;
+      if (val1 % 2 == 0)
+        NewVal *= -1;
 
       break;
 
@@ -310,4 +299,3 @@ function EvaluateResult() {
 
   return NewVal;
 }
-
