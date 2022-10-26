@@ -36,7 +36,8 @@ ClearAllButton.addEventListener("click", () => {
 });
 
 commaButton.addEventListener("click", () => {
-  if (!toString(NewVal).includes(".")) {
+  console.log(NewVal);
+  if (!NewVal.includes(".")) {
     NewVal += ".";
     console.log("yes");
     UpdateView();
